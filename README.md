@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+- 과정마다 커밋
 
-## Getting Started
+1. 넥스트 설치
+2. shadcn 설치
+3. 색 테마
+4. 다크모드
+5. 네비게이션 바
 
-First, run the development server:
+- 메뉴 4개(내 투두, 공개 투두 , 로그인, 다크모드)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+6. 모달 UI
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 모달
+- 탭
+- 회원가입 폼, 로그인 폼
+- 유효성 검사(조드, 리액트훅폼, 버튼들)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+7. 슈퍼베이스 세팅
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 프로젝트 생성
+- db설계
+- 넥스트 auth세팅
+- db타입, 글로벌 지정
