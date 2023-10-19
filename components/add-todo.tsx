@@ -20,7 +20,7 @@ export default function AddTodo({ userAvatar }: { userAvatar: string }) {
     }
     setIsAdding(true);
     try {
-      await fetch(`https://supabase-next13-todo.vercel.app//todo/api`, {
+      await fetch(`https://supabase-next13-todo.vercel.app/todo/api`, {
         method: "POST",
         body: JSON.stringify({
           title: todoInputRef?.current?.value,

@@ -89,7 +89,7 @@ export function LoginForm() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `https://supabase-next13-todo.vercel.app//auth/callback`,
+          redirectTo: `https://supabase-next13-todo.vercel.app/auth/callback`,
           queryParams: {
             access_type: "offline",
             prompt: "consent",
@@ -121,7 +121,7 @@ export function LoginForm() {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "kakao",
         options: {
-          redirectTo: `https://supabase-next13-todo.vercel.app//auth/callback`,
+          redirectTo: `https://supabase-next13-todo.vercel.app/auth/callback`,
         },
       });
       if (error) {
