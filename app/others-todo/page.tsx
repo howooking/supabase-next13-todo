@@ -42,7 +42,7 @@ export default async function OthersTodo() {
       </CardHeader>
       <CardContent className="space-y-2 pb-4 h-[400px] overflow-auto">
         <OthersTodosTable
-          todos={todos?.filter((todo) => todo.id !== user.id) ?? []}
+          todos={todos?.filter((todo) => todo.user_id !== user.id) ?? []}
         />
       </CardContent>
     </Card>

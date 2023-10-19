@@ -25,7 +25,6 @@ export function OthersTodosTable({ todos }: { todos: Todo[] }) {
           table: "todos",
         },
         () => {
-          console.log("change!");
           router.refresh();
         }
       )
