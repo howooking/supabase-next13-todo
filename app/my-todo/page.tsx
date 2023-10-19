@@ -5,6 +5,8 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { TodosTable } from "./(components)/todos-table";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import Loading from "./laoding";
 
 export default async function MyTodo() {
   const { data: todos, error: error1 } =

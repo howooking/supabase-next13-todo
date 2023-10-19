@@ -15,7 +15,7 @@ export default function TodoRow({ todo }: { todo: Todo }) {
   const handleDeleteTodo = async () => {
     setIsDeleting(true);
     try {
-      await fetch(`${location.origin}/todo/api`, {
+      await fetch(`https://supabase-next13-todo.vercel.app//todo/api`, {
         method: "DELETE",
         body: JSON.stringify({ id: todo.id }),
       });
@@ -32,7 +32,7 @@ export default function TodoRow({ todo }: { todo: Todo }) {
   const handleToggleDone = async () => {
     setIsTogglingTodo(true);
     try {
-      await fetch(`${location.origin}/todo/api`, {
+      await fetch(`https://supabase-next13-todo.vercel.app//todo/api`, {
         method: "PUT",
         body: JSON.stringify({
           type: "done",
@@ -53,7 +53,7 @@ export default function TodoRow({ todo }: { todo: Todo }) {
   const handleTogglePublic = async () => {
     setIsTogglingPublic(true);
     try {
-      await fetch(`${location.origin}/todo/api/`, {
+      await fetch(`https://supabase-next13-todo.vercel.app//todo/api/`, {
         method: "PUT",
         body: JSON.stringify({
           type: "public",

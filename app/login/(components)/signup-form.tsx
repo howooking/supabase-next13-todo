@@ -63,7 +63,7 @@ export function SignupForm() {
         email: values.email,
         password: values.password,
         options: {
-          emailRedirectTo: `${location.origin}/auth/callback`,
+          emailRedirectTo: `https://supabase-next13-todo.vercel.app//auth/callback`,
         },
       });
       if (error) {
