@@ -16,9 +16,12 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useToast } from "@/components/ui/use-toast";
 
 export function SignupForm() {
+  const { toast } = useToast();
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const supabase = createClientComponentClient();
   const router = useRouter();
@@ -48,14 +51,50 @@ export function SignupForm() {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
-      options: {
-        emailRedirectTo: `${location.origin}/auth/callback`,
-      },
-    });
+  const [message, setMessage] = useState("");
+  const [isSigningup, setIsSigningup] = useState(false);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSigningup(true);
+    try {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+        },
+      });
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: error.message,
+          description: "Try later",
+        });
+        return;
+      }
+      if (user?.identities?.length === 0) {
+        toast({
+          variant: "destructive",
+          title: "This email is already signed up",
+          description: "Contact admin",
+        });
+        return;
+      }
+      toast({
+        title: "Sent cofirmation email",
+        description: "Check your email",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error while signing up",
+        description: "Try later",
+      });
+    } finally {
+      setIsSigningup(false);
+    }
   }
 
   return (
@@ -107,9 +146,13 @@ export function SignupForm() {
             )}
           />
         </div>
-
-        <Button className="w-full" type="submit">
-          SIGN UP
+        <span>{message}</span>
+        <Button className="w-full" type="submit" disabled={isSigningup}>
+          {isSigningup ? (
+            <AiOutlineLoading3Quarters className="animate-spin" />
+          ) : (
+            "SIGN UP"
+          )}
         </Button>
       </form>
     </Form>

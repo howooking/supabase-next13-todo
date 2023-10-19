@@ -37,9 +37,6 @@ export async function NavbarAvatar() {
           <DropdownMenuItem className="cursor-pointer">
             Profile
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            Profile
-          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="text-primary cursor-pointer">
             <LogoutButton />

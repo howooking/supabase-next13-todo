@@ -5,7 +5,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { RiKakaoTalkFill } from "react-icons/ri";
-import { AiOutlineMail } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineMail } from "react-icons/ai";
 import {
   Form,
   FormControl,
@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   email: z.string().email({ message: "please type correct email format" }),
@@ -26,6 +27,12 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
+  const { toast } = useToast();
+  const [isSigningin, setIsSigningin] = useState({
+    password: false,
+    google: false,
+    kakao: false,
+  });
   const router = useRouter();
   const supabase = createClientComponentClient<Database>(); // 이렇게 사용처마다 인스턴스 불러도 된는겨?
 
@@ -45,42 +52,97 @@ export function LoginForm() {
   });
 
   const handlePasswordLogin = async (values: z.infer<typeof formSchema>) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: values.email,
-      password: values.password,
-    });
-    router.push("/");
-    if (error) {
-      throw new Error("error while email login");
+    setIsSigningin((prev) => ({ ...prev, password: true }));
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: error.message,
+          description: "Try again with another email or password",
+        });
+        return;
+      }
+      toast({
+        title: "Welcome!",
+        description: "Time to do your tasks!",
+      });
+      router.push("/");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "error while signing in with google",
+        description: "Try agin",
+      });
+      console.error(error);
+    } finally {
+      setIsSigningin((prev) => ({ ...prev, password: false }));
     }
   };
+
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
+    setIsSigningin((prev) => ({ ...prev, google: true }));
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${location.origin}/auth/callback`,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
         },
-      },
-    });
-    if (error) {
-      throw new Error("error while google login");
+      });
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: error.message,
+          description: "Try later",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "error while signing in with google",
+        description: "Try later",
+      });
+      console.error(error);
+    } finally {
+      setIsSigningin((prev) => ({ ...prev, google: false }));
     }
   };
 
   const handleKakaoLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "kakao",
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    });
-    if (error) {
-      throw new Error("error while google login");
+    setIsSigningin((prev) => ({ ...prev, kakao: true }));
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "kakao",
+        options: {
+          redirectTo: `${location.origin}/auth/callback`,
+        },
+      });
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: error.message,
+          description: "Try later",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "error while signing in with kakao",
+        description: "Try later",
+      });
+      console.error(error);
+    } finally {
+      setIsSigningin((prev) => ({ ...prev, kakao: false }));
     }
   };
+
   return (
     <Form {...form}>
       <form
@@ -117,8 +179,14 @@ export function LoginForm() {
         </div>
         <div className="space-y-2">
           <Button type="submit" className="flex gap-2 w-full">
-            <AiOutlineMail size={20} />
-            <span>Login With Email</span>
+            {isSigningin.password ? (
+              <AiOutlineLoading3Quarters className="animate-spin" />
+            ) : (
+              <>
+                <AiOutlineMail size={20} />
+                <span>Login With Email</span>
+              </>
+            )}
           </Button>
           <Button
             type="button"
@@ -126,8 +194,14 @@ export function LoginForm() {
             className="flex gap-2 w-full"
             variant="outline"
           >
-            <FcGoogle size={20} />
-            <span>Login With Google</span>
+            {isSigningin.google ? (
+              <AiOutlineLoading3Quarters className="animate-spin" />
+            ) : (
+              <>
+                <FcGoogle size={20} />
+                <span>Login With Google</span>
+              </>
+            )}
           </Button>
           <Button
             type="button"
@@ -135,8 +209,14 @@ export function LoginForm() {
             className="flex gap-2 w-full"
             variant="outline"
           >
-            <RiKakaoTalkFill size={20} />
-            <span>Login With Kakao</span>
+            {isSigningin.kakao ? (
+              <AiOutlineLoading3Quarters className="animate-spin" />
+            ) : (
+              <>
+                <RiKakaoTalkFill size={20} />
+                <span>Login With Kakao</span>
+              </>
+            )}
           </Button>
         </div>
       </form>
