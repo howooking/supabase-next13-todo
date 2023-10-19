@@ -11,27 +11,28 @@ import {
 } from "@/components/ui/dropdown-menu";
 import LogoutButton from "@/components/navbar/logout-button";
 
-export async function UserAvatar() {
+export async function NavbarAvatar() {
   const supabase = createServerComponentClient({ cookies });
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const handleLogout = () => {
-    supabase.auth.signOut();
-  };
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
-            {/* <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> */}
+            <AvatarImage
+              src={user?.user_metadata.avatar_url}
+              alt="profile image"
+            />
             <AvatarFallback>
-              {session?.user.email?.slice(0, 2).toUpperCase()}
+              {user?.email?.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>{session?.user.email}</DropdownMenuLabel>
+          <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
             Profile

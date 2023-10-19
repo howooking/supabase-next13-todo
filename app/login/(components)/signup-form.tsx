@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -105,9 +107,10 @@ export function SignupForm() {
             )}
           />
         </div>
-        <div className="flex gap-2 justify-end">
-          <Button type="submit">SIGN UP</Button>
-        </div>
+
+        <Button className="w-full" type="submit">
+          SIGN UP
+        </Button>
       </form>
     </Form>
   );

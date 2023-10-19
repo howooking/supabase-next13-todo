@@ -1,19 +1,20 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import React from "react";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LoginForm } from "@/components/navbar/login-form";
-import { SignupForm } from "@/components/navbar/signup-form";
+import { LoginForm } from "./(components)/login-form";
+import { SignupForm } from "./(components)/signup-form";
 
-export function LoginTab() {
+export default function Login() {
   return (
-    <Tabs defaultValue="login" className="space-y-4">
+    <Tabs defaultValue="login" className="space-y-4 min-w-[400px]">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="login">LOGIN</TabsTrigger>
         <TabsTrigger value="signup">SIGN UP</TabsTrigger>

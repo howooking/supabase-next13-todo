@@ -7,6 +7,7 @@ import { useEffect } from "react";
 export default function LogoutButton() {
   const supabase = createClientComponentClient();
   const router = useRouter();
+
   useEffect(() => {
     const {
       data: { subscription },
@@ -19,8 +20,9 @@ export default function LogoutButton() {
     };
   }, [router, supabase.auth]);
 
-  const handleLogout = () => {
-    supabase.auth.signOut();
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/");
   };
   return <div onClick={handleLogout}>Logout</div>;
 }
