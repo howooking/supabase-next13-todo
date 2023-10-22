@@ -1,1 +1,1 @@
-(배포)[https://supabase-next13-todo.vercel.app/]
+[배포](https://supabase-next13-todo.vercel.app/)
